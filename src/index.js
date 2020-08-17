@@ -6,8 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Responsible for getting the list of categories from API and rendering them in the HTML
     const getCategoryList = () => {
         fetch(QUIZ_URL + NEW_PATH)
-        .then(response => response.json)
-        .then(categories => renderCategories(categories))
+            .then(response => response.json())
+            .then(categories => {
+                console.dir(categories)
+                renderCategories(categories)
+            })
     }
 
     const renderCategories = (categories) => {
@@ -19,9 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
             option.innerText = category["name"]
             select.append(option)
         }
-        document.querySelector("quiz_create").append(select)
+        document.querySelector("div.quiz_create").append(select)
     }
-
 
     getCategoryList()
 })
