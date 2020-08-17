@@ -6,11 +6,24 @@ document.addEventListener("DOMContentLoaded", () => {
     // Responsible for getting the list of categories from API and rendering them in the HTML
     const getCategoryList = () => {
         fetch(QUIZ_URL + NEW_PATH)
-            .then(response => response.json())
+            .then(response => console.log(response))
             .then(categories => {
-                console.dir(categories)
+                console.log(categories)
                 renderCategories(categories)
             })
+    }
+
+    const getTest = () => {
+        fetch(QUIZ_URL + NEW_PATH)
+            .then(response => response.text())
+            .then(test => {
+                testMethod(test)
+            })
+    }
+
+    const testMethod = (test) => {
+        console.log("console")
+        console.log(test)
     }
 
     const renderCategories = (categories) => {
@@ -25,5 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector("div.quiz_create").append(select)
     }
 
-    getCategoryList()
+    // getCategoryList()
+    getTest()
 })
