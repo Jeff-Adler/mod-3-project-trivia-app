@@ -31,43 +31,16 @@ document.addEventListener("DOMContentLoaded", () => {
         submitButton.type = "submit"
         submitButton.value = "Submit"
         quizForm.append(submitButton)
-        
         quizForm.addEventListener("submit", processForm)
 
     }
 
     const processForm = (e) => {
-        // e.preventDefault()
         const formElements = e.target.children
         const difficultyInput = formElements[1].value
         const quizTopicInput = formElements[3].value
-
         findQuiz(difficultyInput, quizTopicInput)
     }
-
-    // const loadQuizPage = (quizArray) => {
-    //     window.location.replace("views/quiz.html");
-    //     renderQuiz(quizArray)
-    // }
-
-    // const findQuiz = (difficultyInput, topicInput) => {
-    //     const quizObj = {
-    //         category: topicInput,
-    //         difficulty: difficultyInput
-    //     }
-    //     const option = {
-    //     method: "POST",
-    //     headers: {
-    //         "content-type": "application/json",
-    //         "accept": "application/json"
-    //     },
-    //     body: JSON.stringify(quizObj) 
-    //     }
-
-    //     fetch(QUIZ_URL + FIND_PATH, option)
-    //         .then(response => response.json())
-    //         .then(resp => loadQuizPage(resp))
-    // }
 
     getCategoryList()
 })
