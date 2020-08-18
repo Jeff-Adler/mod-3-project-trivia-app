@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         label.innerText = "Choose a quiz topic:"
         const select = document.createElement("select")
         select.className = "quiz_selection"
+        select.setAttribute("name","category")
         for (const category of categories) {
             const option = document.createElement("option")
             option.value = category["name"]
@@ -36,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const processForm = (e) => {
-        e.preventDefault()
+        // e.preventDefault()
         const formElements = e.target.children
         const difficultyInput = formElements[1].value
         const quizTopicInput = formElements[3].value
@@ -44,26 +45,29 @@ document.addEventListener("DOMContentLoaded", () => {
         findQuiz(difficultyInput, quizTopicInput)
     }
 
-    const findQuiz = (difficultyInput, topicInput) => {
-        const quizObj = {
-            difficulty: difficultyInput,
-            topic: topicInput
-        }
-        const option = {
-        method: "POST",
-        headers: {
-            "content-type": "application/json",
-            "accept": "application/json"
-        },
-        body: JSON.stringify(quizObj) 
-        }
+    // const loadQuizPage = (quizArray) => {
+    //     window.location.replace("views/quiz.html");
+    //     renderQuiz(quizArray)
+    // }
 
-        fetch(QUIZ_URL + FIND_PATH, option)
-        .then(response => response.json())
-        .then(resp => console.log(resp))
-    }
+    // const findQuiz = (difficultyInput, topicInput) => {
+    //     const quizObj = {
+    //         category: topicInput,
+    //         difficulty: difficultyInput
+    //     }
+    //     const option = {
+    //     method: "POST",
+    //     headers: {
+    //         "content-type": "application/json",
+    //         "accept": "application/json"
+    //     },
+    //     body: JSON.stringify(quizObj) 
+    //     }
 
-
+    //     fetch(QUIZ_URL + FIND_PATH, option)
+    //         .then(response => response.json())
+    //         .then(resp => loadQuizPage(resp))
+    // }
 
     getCategoryList()
 })

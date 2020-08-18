@@ -4,7 +4,7 @@ CREATE_PATH = "create"
 document.addEventListener("DOMContentLoaded", () => {
 
     const openIndex = () => {
-        window.open("../index.html");
+       window.location.replace("../index.html");
     }
 
     const submitHandler = () => {
@@ -13,10 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const submit = e.target
             if (submit.matches("form#sign-up")) {
 
-                const userObj = {
-                    firstName: submit.querySelector("#first_name").value,
-                    lastName: submit.querySelector("#last_name").value,
-                    userName: submit.querySelector("#username").value,
+                const user = {
+                    first_name: submit.querySelector("#first_name").value,
+                    last_name: submit.querySelector("#last_name").value,
+                    username: submit.querySelector("#username").value,
                     email: submit.querySelector("#email").value
                 }
                 
@@ -26,11 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         "content-type": "application/json",
                         "accept": "application/json"
                     },
-                    body: JSON.stringify(userObj) 
+                    body: JSON.stringify(user) 
                 }
 
                 fetch(USER_URL + CREATE_PATH,configObj)
-                    .then(response => response.json())
                     .then(openIndex())
             }
         })
