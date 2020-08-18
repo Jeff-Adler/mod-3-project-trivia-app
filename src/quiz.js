@@ -1,6 +1,7 @@
 QUIZ_URL = "http://localhost:3000/quizzes/"
 NEW_PATH = "new"
 FIND_PATH = "find"
+let correctAnswers = []
 
 var getParams = function (url) {
 	var params = {};
@@ -29,6 +30,8 @@ const params = getParams(window.location.href);
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    let score = 0
+
     const questionsContainer = document.querySelector("#questions-container")
     const renderQuizQuestions = (questionsArray) => {
         for(let i = 0; i < questionsArray.length; i++){ 
@@ -36,8 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
             questionDiv.id = "question-div"
             let answersArr = questionsArray[i]["incorrect_answers"]
             const correctAnswer = questionsArray[i]["correct_answer"]
+            correctAnswers.push(correctAnswer)
             answersArr.push(correctAnswer)
-
+            
             function shuffleArray(array) {
                 for (var i = array.length - 1; i > 0; i--) {
                     var j = Math.floor(Math.random() * (i + 1));
@@ -46,32 +50,76 @@ document.addEventListener("DOMContentLoaded", () => {
                     array[j] = temp;
                 }
             }
-
+            
             shuffleArray(answersArr)
-
+            
             const question = document.createElement("h3")
             question.innerHTML = `${questionsArray[i]["question"]}`
             // in the CC add an indentation for the questiondiv
             questionDiv.innerHTML =
             `
-            <input type="radio" id="answer-one" name="q${i}" value="${answersArr[0]}">
+            <input type="radio" class="radio-node" id="answer-one" name="${i}" value="${answersArr[0]}">
             <label for="${answersArr[0]}">${answersArr[0]}</label><br>
-            <input type="radio" id="answer-two" name="q${i}" value="${answersArr[1]}">
+            <input type="radio" class="radio-node" id="answer-two" name="${i}" value="${answersArr[1]}">
             <label for="${answersArr[1]}">${answersArr[1]}</label><br>
-            <input type="radio" id="answer-three" name="q${i}" value="${answersArr[2]}">
+            <input type="radio" class="radio-node" id="answer-three" name="${i}" value="${answersArr[2]}">
             <label for="${answersArr[2]}">${answersArr[2]}</label><br>
-            <input type="radio" id="answer-four" name="q${i}" value="${answersArr[3]}">
+            <input type="radio" class="radio-node" id="answer-four" name="${i}" value="${answersArr[3]}">
             <label for="${answersArr[3]}">${answersArr[3]}</label>
             `
             questionsContainer.append(question)
             question.append(questionDiv)
-            questionDiv.addEventListener("change", processChoice(correctAnswer))
+            // processChoice(correctAnswer)
+            // questionsContainer.addEventListener("change", (e)=>{processChoice(e, correctAnswer)})
+            
             }
     }
 
-    const processChoice = (e) => {
-        console.log(e.target)
+    const changeHandler = () => {
+        document.addEventListener("change", (e) => {
+            if(e.target.matches(".radio-node")){
+                if(e.target.value === correctAnswers[parseInt(e.target.name)]){
+                    score += 1
+                    console.log("right!")
+                    const divNodes = e.target.parentNode.children
+                    for (const node of divNodes){
+                        if(node.type == "radio"){
+                            console.log("I'm a radio button input thing")
+                            node.disabled = true
+                        }
+                    }
+                    console.log(score)
+                }else if (e.target.value !== correctAnswers[parseInt(e.target.name)]){
+                    const divNodes = e.target.parentNode.children
+                    for (const node of divNodes){
+                        if(node.type == "radio"){
+                            console.log("I'm a radio button input thing")
+                            node.disabled = true
+                        }
+                    }
+                    console.log("wrong!")
+                }
+            }   
+        })
     }
+
+
+    // const processChoice = (correctAnswer) => {
+    //     // const questionDiv = document.getElementById("question-div")
+    //     const questionsContainer = document.querySelector("#questions-container")
+    //     questionsContainer.addEventListener("change", (e) => {
+    //         const answer = e.target.value
+    //         if(answer === correctAnswer){
+    //             score += 1
+    //             console.log(score)
+    //             //and send patch request
+    //         } 
+    //             console.log(score)
+    //             //indicate on screen they did not get it right i.e. red text, progress bar didnt jump
+    //         }
+    //     })
+    //     // let radioNodes = document.querySelectorAll(".radio-node")
+    // }
 
 
 
@@ -103,4 +151,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     findQuiz(params)
+    changeHandler()
 })
