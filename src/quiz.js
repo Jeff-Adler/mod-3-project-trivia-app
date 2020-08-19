@@ -1,8 +1,8 @@
-
 QUIZ_URL = "http://localhost:3000/quizzes/"
 NEW_PATH = "new"
 FIND_PATH = "find"
 let correctAnswers = []
+let userAnswers = new Array(10);
 
 var getParams = function (url) {
 	var params = {};
@@ -19,33 +19,32 @@ var getParams = function (url) {
 
 const params = getParams(window.location.href);
 
-// function shuffle(array) {
-//     for (let i = array.length - 1; i > 0; i--) {
-//       let j = Math.floor(Math.random() * (i + 1));
-//       [array[i], array[j]] = [array[j], array[i]];
-//     }
-//   }
-
 
 document.addEventListener("DOMContentLoaded", () => {
-
     let score = 0
-
     const questionsContainer = document.querySelector("#questions-container")
+    
+    const renderNicknameForm = () => {
+        const nameForm = document.createElement("form")
+        nameForm.id = "nickname-form"
+        nameForm.innerHTML =
+        `<form>
+        <label for="nickname">What's your nickname? We'll use it for the leaderboard.</label>
+        <input type="text" id="nickname" name="nickname"<br>
+      </form> 
+        `
+        questionsContainer.append(nameForm)
+    }
+
+
     const renderQuizQuestions = (questionsArray) => {
         for(let i = 0; i < questionsArray.length; i++){ 
             const questionDiv = document.createElement("div")
+            questionDiv.dataset.question_id = i
             questionDiv.id = "question-div"
             let answersArr = questionsArray[i]["incorrect_answers"]
             const correctAnswer = questionsArray[i]["correct_answer"]
-        // added code beings here
-            // console.log(questionsArray[i]["correct_answer"])
-            // console.log(correctAnswer)
-            // const correctAnswerStripped = correctAnswer //.replace(/[^0-9a-z]/gi, '')
-            // correctAnswers.push(correctAnswerStripped)
             correctAnswers.push(correctAnswer)
-
-        // ends here
             answersArr.push(correctAnswer)
             
             function shuffleArray(array) {
@@ -75,8 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
             `
             questionsContainer.append(question)
             question.append(questionDiv)
-            // processChoice(correctAnswer)
-            // questionsContainer.addEventListener("change", (e)=>{processChoice(e, correctAnswer)})
             
             }
         console.log(correctAnswers)
@@ -94,13 +91,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const changeHandler = () => {
         document.addEventListener("change", (e) => {
             if(e.target.matches(".radio-node")){
-                console.log(e.target.value)
-                console.log(decodeHTML(correctAnswers[parseInt(e.target.name)]))
+                const questionIndex = e.target.parentElement.dataset.question_id
+                userAnswers[questionIndex] = e.target.value
                 if(e.target.value === decodeHTML(correctAnswers[parseInt(e.target.name)])){
                     score += 1
                     console.log("right!")
                     const questionDiv = e.target.parentNode
-                    questionDiv.style.color = "green";
                     const divNodes = e.target.parentNode.children
                     for (const node of divNodes){
                         if(node.type == "radio"){
@@ -110,7 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.log(score)
                 }else if (e.target.value !== correctAnswers[parseInt(e.target.name)]){
                     const questionDiv = e.target.parentNode
-                    questionDiv.style.color = "red";
                     const divNodes = e.target.parentNode.children
                     for (const node of divNodes){
                         if(node.type == "radio"){
@@ -123,30 +118,42 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
+    const clickHandler = () => {
+        document.addEventListener("click", (e) => {
+            if(e.target.id === "submit-quiz-button"){
+                const nicknameForm = document.querySelector("#nickname-form").remove()
+                const scoreMessage = document.createElement("div")
+                scoreMessage.innerHTML = `Congrats! You got a ${score}/10. <a href="../index.html">Take another quiz</a>`
+                questionsContainer.prepend(scoreMessage)
+                scroll(0,0)
+                const body = e.target.parentNode
+                console.log(userAnswers)
+                console.log(correctAnswers)
+                for(let i=0; i < correctAnswers.length; i++){
+                    if(correctAnswers[i] === userAnswers[i]){
+                        const divToColorChange = document.querySelector(`[data-question_id="${i}"]`)
+                        divToColorChange.style.color = "green";
+                    }
+                    else if(correctAnswers[i] !== userAnswers[i]){
+                        const divToColorChange = document.querySelector(`[data-question_id="${i}"]`)
+                        divToColorChange.style.color = "red";
+                    }
+                }
+                saveQuizForms(body)
+            }
+            
+        })
+    }
 
-    // const processChoice = (correctAnswer) => {
-    //     // const questionDiv = document.getElementById("question-div")
-    //     const questionsContainer = document.querySelector("#questions-container")
-    //     questionsContainer.addEventListener("change", (e) => {
-    //         const answer = e.target.value
-    //         if(answer === correctAnswer){
-    //             score += 1
-    //             console.log(score)
-    //             //and send patch request
-    //         } 
-    //             console.log(score)
-    //             //indicate on screen they did not get it right i.e. red text, progress bar didnt jump
-    //         }
-    //     })
-    //     // let radioNodes = document.querySelectorAll(".radio-node")
-    // }
-
+    const saveQuizForms = (body) => {
+        // const nickName = body.querySelector("input#nickname").value
+        // const userScore = score
+    }
 
 
     const findQuiz = (params) => {
-        // console.log(params)
         const search = '\\+';
-        const searchRegExp = new RegExp(search, 'g'); // Throws SyntaxError
+        const searchRegExp = new RegExp(search, 'g'); 
         const replaceWith = ' ';
         const result = params["category"].replace(searchRegExp, replaceWith);
 
@@ -162,9 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         body: JSON.stringify(quizObj) 
         }
-
-        // console.log(JSON.stringify(quizObj))
-
         fetch(QUIZ_URL + FIND_PATH, option)
             .then(response => response.json())
             .then(questions => renderQuizQuestions(questions))
@@ -172,4 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     findQuiz(params)
     changeHandler()
+    clickHandler()
+    renderNicknameForm()
 })
