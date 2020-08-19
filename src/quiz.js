@@ -82,14 +82,22 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(correctAnswers)
     }
 
+    const decodeHTML = (string) => {
+        string = string.replace("&#039;","\'");
+        string = string.replace("&amp;","&");
+        string = string.replace("&lt;","<");
+        string = string.replace("&gt;",">");
+        string = string.replace("&quot;","\"");
+        return string
+    }
+    //  &amp;, &lt;, &gt;, &quot; and &#39;
+
     const changeHandler = () => {
         document.addEventListener("change", (e) => {
             if(e.target.matches(".radio-node")){
-                console.log((e.target.value))
-                // console.log(e.target.value.replace(/[^0-9a-z]/gi, ''))
-                console.log(unescape(correctAnswers[parseInt(e.target.name)]))
-                // debugger
-                if(e.target.value === correctAnswers[parseInt(e.target.name)]){
+                console.log(e.target.value)
+                console.log(decodeHTML(correctAnswers[parseInt(e.target.name)]))
+                if(e.target.value === decodeHTML(correctAnswers[parseInt(e.target.name)])){
                     score += 1
                     console.log("right!")
                     const questionDiv = e.target.parentNode
