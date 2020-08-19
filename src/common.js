@@ -1,8 +1,6 @@
 
 const authorizationVerification = (url) => {
-
     return fetch(url)
-
 }
 
 const directUser = (authorizationResponse) => {
