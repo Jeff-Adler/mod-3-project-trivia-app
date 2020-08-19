@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const renderCategories = (categories) => {
         const label = document.createElement("label")
-        label.innerText = "Choose a quiz topic:"
+        label.innerText = "Topic: "
         const select = document.createElement("select")
         select.className = "quiz_selection"
         select.setAttribute("name","category")
@@ -26,10 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
             select.append(option)
         }
         const quizForm = document.querySelector("#quiz-selections")
-        quizForm.append(label, select)
+        const lineBreak1 = document.createElement("br");
+        const lineBreak2= document.createElement("br");
+        quizForm.prepend(label, select,lineBreak1,lineBreak2)
         submitButton = document.createElement("input")
         submitButton.type = "submit"
-        submitButton.value = "Submit"
+        submitButton.value = "Let's get quizzing!"
         quizForm.append(submitButton)
         quizForm.addEventListener("submit", processForm)
 

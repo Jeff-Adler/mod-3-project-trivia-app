@@ -59,13 +59,13 @@ document.addEventListener("DOMContentLoaded", () => {
             questionDiv.innerHTML =
             `
             <input type="radio" class="radio-node" id="answer-one" name="${i}" value="${answersArr[0]}">
-            <label for="${answersArr[0]}">${answersArr[0]}</label><br>
+            <label class="question-choice" for="${answersArr[0]}">${answersArr[0]}</label><br>
             <input type="radio" class="radio-node" id="answer-two" name="${i}" value="${answersArr[1]}">
-            <label for="${answersArr[1]}">${answersArr[1]}</label><br>
+            <label class="question-choice" for="${answersArr[1]}">${answersArr[1]}</label><br>
             <input type="radio" class="radio-node" id="answer-three" name="${i}" value="${answersArr[2]}">
-            <label for="${answersArr[2]}">${answersArr[2]}</label><br>
+            <label class="question-choice" for="${answersArr[2]}">${answersArr[2]}</label><br>
             <input type="radio" class="radio-node" id="answer-four" name="${i}" value="${answersArr[3]}">
-            <label for="${answersArr[3]}">${answersArr[3]}</label>
+            <label class="question-choice" for="${answersArr[3]}">${answersArr[3]}</label>
             `
             questionsContainer.append(question)
             question.append(questionDiv)
@@ -81,6 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 if(e.target.value === correctAnswers[parseInt(e.target.name)]){
                     score += 1
                     console.log("right!")
+                    const questionDiv = e.target.parentNode
+                    questionDiv.style.color = "green";
                     const divNodes = e.target.parentNode.children
                     for (const node of divNodes){
                         if(node.type == "radio"){
@@ -90,6 +92,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     console.log(score)
                 }else if (e.target.value !== correctAnswers[parseInt(e.target.name)]){
+                    const questionDiv = e.target.parentNode
+                    questionDiv.style.color = "red";
                     const divNodes = e.target.parentNode.children
                     for (const node of divNodes){
                         if(node.type == "radio"){

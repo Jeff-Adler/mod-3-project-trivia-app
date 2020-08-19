@@ -1,0 +1,46 @@
+:root {
+    background-color: #E8E8E8;
+}
+
+* {
+    font-family: "Courier New", Courier, monospace;
+}
+
+.centered-heading {
+    text-align: center;
+}
+
+/* Quiz Selection Form */
+
+div#quiz-select-form {
+    text-align: center;
+}
+
+div#index {
+    padding: 200px 0;
+}
+
+/* Quiz Form */
+
+div#questions-container {
+    text-align: left;
+}
+
+input.radio-node {
+    text-align: left;
+}
+
+label.question-choice {
+    font-weight: normal;
+}
+
+/* Sign-in form */
+
+body#sign-in {
+    padding: 200px 0;
+    text-align: center;
+}
+
+div#new-user-form {
+    padding: 150px 0;
+}

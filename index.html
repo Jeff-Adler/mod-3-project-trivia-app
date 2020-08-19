@@ -3,30 +3,25 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/app.css">
     <title>Quiz Generator</title>
 </head>
 
 <body>
-    <h1>Take a quiz</h1>
-    <h3>Because quizzes are fun</h3>
-    <!-- <img id="welcome-image" alt="" src="https://media.giphy.com/media/UDjF1zMreMld6/giphy.gif" /> -->
-    <br />
+    <div id="index">
+        <h1 class="centered-heading">Choose your quiz</h1>
 
-    <h3>Select Quiz Type</h3>
-    
-
-    <div>
-        <form action="views/quiz.html" method="get" id="quiz-selections">
-        <label for="difficulty">Choose difficulty level:</label>
-        <select id="difficulty-select" name="difficulty">
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-        </select>
-        </form>
+        <div id="quiz-select-form">
+            <form action="views/quiz.html" method="get" id="quiz-selections">
+            <label for="difficulty">Difficulty level:</label>
+            <select id="difficulty-select" name="difficulty"><br>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select><br><br>
+            </form>
+        </div>
     </div>
-
-    
 </body>
 <script defer type="text/javascript" src="src/index.js" charset="utf-8"></script>
 <!-- <script defer type="text/javascript" src="src/quiz.js" charset="utf-8"></script> -->
