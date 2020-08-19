@@ -1,3 +1,4 @@
+
 QUIZ_URL = "http://localhost:3000/quizzes/"
 NEW_PATH = "new"
 FIND_PATH = "find"
@@ -26,8 +27,6 @@ const params = getParams(window.location.href);
 //   }
 
 
-
-
 document.addEventListener("DOMContentLoaded", () => {
 
     let score = 0
@@ -39,7 +38,14 @@ document.addEventListener("DOMContentLoaded", () => {
             questionDiv.id = "question-div"
             let answersArr = questionsArray[i]["incorrect_answers"]
             const correctAnswer = questionsArray[i]["correct_answer"]
+        // added code beings here
+            // console.log(questionsArray[i]["correct_answer"])
+            // console.log(correctAnswer)
+            // const correctAnswerStripped = correctAnswer //.replace(/[^0-9a-z]/gi, '')
+            // correctAnswers.push(correctAnswerStripped)
             correctAnswers.push(correctAnswer)
+
+        // ends here
             answersArr.push(correctAnswer)
             
             function shuffleArray(array) {
@@ -73,11 +79,16 @@ document.addEventListener("DOMContentLoaded", () => {
             // questionsContainer.addEventListener("change", (e)=>{processChoice(e, correctAnswer)})
             
             }
+        console.log(correctAnswers)
     }
 
     const changeHandler = () => {
         document.addEventListener("change", (e) => {
             if(e.target.matches(".radio-node")){
+                console.log((e.target.value))
+                // console.log(e.target.value.replace(/[^0-9a-z]/gi, ''))
+                console.log(unescape(correctAnswers[parseInt(e.target.name)]))
+                // debugger
                 if(e.target.value === correctAnswers[parseInt(e.target.name)]){
                     score += 1
                     console.log("right!")
@@ -86,7 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     const divNodes = e.target.parentNode.children
                     for (const node of divNodes){
                         if(node.type == "radio"){
-                            console.log("I'm a radio button input thing")
                             node.disabled = true
                         }
                     }
@@ -97,7 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     const divNodes = e.target.parentNode.children
                     for (const node of divNodes){
                         if(node.type == "radio"){
-                            console.log("I'm a radio button input thing")
                             node.disabled = true
                         }
                     }
