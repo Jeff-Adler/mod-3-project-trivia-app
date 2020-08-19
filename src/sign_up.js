@@ -7,6 +7,15 @@ document.addEventListener("DOMContentLoaded", () => {
        window.location.replace("../index.html");
     }
 
+    const renderSuccessOrFail = (signupResponse) => {
+        if (signupResponse.valid === "y") {
+            alert(signupResponse.message)
+            openIndex()
+        } else {
+            alert(signupResponse.message)
+        }
+    }
+
     const submitHandler = () => {
         document.addEventListener("submit",(e) => {
             e.preventDefault()
@@ -30,7 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 fetch(USER_URL + CREATE_PATH,configObj)
-                    .then(openIndex())
+                    .then(response => response.json())
+                    .then(successResponse => renderSuccessOrFail(successResponse))
+                    // .then(openIndex())
             }
         })
     }

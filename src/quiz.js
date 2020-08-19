@@ -90,7 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
         string = string.replace("&quot;","\"");
         return string
     }
-    //  &amp;, &lt;, &gt;, &quot; and &#39;
 
     const changeHandler = () => {
         document.addEventListener("change", (e) => {

@@ -44,3 +44,10 @@ body#sign-in {
 div#new-user-form {
     padding: 150px 0;
 }
+
+/* Sign-up form */
+
+body#sign-up {
+    padding: 200px 0;
+    text-align: center;
+}
