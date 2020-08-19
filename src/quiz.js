@@ -4,6 +4,7 @@ FIND_PATH = "find"
 let correctAnswers = []
 let userAnswers = new Array(10);
 
+
 var getParams = function (url) {
 	var params = {};
 	var parser = document.createElement('a');
@@ -23,6 +24,7 @@ const params = getParams(window.location.href);
 document.addEventListener("DOMContentLoaded", () => {
     let score = 0
     const questionsContainer = document.querySelector("#questions-container")
+
     
     const renderNicknameForm = () => {
         const nameForm = document.createElement("form")
@@ -38,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     const renderQuizQuestions = (questionsArray) => {
+        // console.log(questionsArray)
         for(let i = 0; i < questionsArray.length; i++){ 
             const questionDiv = document.createElement("div")
             questionDiv.dataset.question_id = i
@@ -91,11 +94,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const changeHandler = () => {
         document.addEventListener("change", (e) => {
             if(e.target.matches(".radio-node")){
+
                 const questionIndex = e.target.parentElement.dataset.question_id
                 userAnswers[questionIndex] = e.target.value
                 if(e.target.value === decodeHTML(correctAnswers[parseInt(e.target.name)])){
                     score += 1
-                    console.log("right!")
+                    // console.log("right!")
                     const questionDiv = e.target.parentNode
                     const divNodes = e.target.parentNode.children
                     for (const node of divNodes){
@@ -103,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             node.disabled = true
                         }
                     }
-                    console.log(score)
+                    // console.log(score)
                 }else if (e.target.value !== correctAnswers[parseInt(e.target.name)]){
                     const questionDiv = e.target.parentNode
                     const divNodes = e.target.parentNode.children
@@ -112,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             node.disabled = true
                         }
                     }
-                    console.log("wrong!")
+                    // console.log("wrong!")
                 }
             }   
         })
@@ -121,14 +125,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const clickHandler = () => {
         document.addEventListener("click", (e) => {
             if(e.target.id === "submit-quiz-button"){
+                const nickname = document.querySelector("#nickname").value
                 const nicknameForm = document.querySelector("#nickname-form").remove()
                 const scoreMessage = document.createElement("div")
                 scoreMessage.innerHTML = `Congrats! You got a ${score}/10. <a href="../index.html">Take another quiz</a>`
                 questionsContainer.prepend(scoreMessage)
                 scroll(0,0)
                 const body = e.target.parentNode
-                console.log(userAnswers)
-                console.log(correctAnswers)
+                // console.log(userAnswers)
+                // console.log(correctAnswers)
                 for(let i=0; i < correctAnswers.length; i++){
                     if(correctAnswers[i] === userAnswers[i]){
                         const divToColorChange = document.querySelector(`[data-question_id="${i}"]`)
@@ -139,16 +144,27 @@ document.addEventListener("DOMContentLoaded", () => {
                         divToColorChange.style.color = "red";
                     }
                 }
-                saveQuizForms(body)
+                
+                // updateQuizResultInstance(score, nickname)
             }
             
         })
     }
 
-    const saveQuizForms = (body) => {
-        // const nickName = body.querySelector("input#nickname").value
-        // const userScore = score
-    }
+    // const updateQuizResultInstance = (quizScore, userNickname) => { // also pass in quizResultId
+        
+    //     option = {
+    //         method: "PATCH",
+    //         body: JSON.stringify({
+    //                             id: waat
+                                // score: quizScore,
+    //                             nickname: userNickname     
+    //                             }),
+    //         headers: {"content-type": "application/json"}
+    //     }
+    //     fetch(QUIZ_RESULT_URL + quizResultID, option)
+    //     .then(console.log)
+    // }
 
 
     const findQuiz = (params) => {
@@ -171,7 +187,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         fetch(QUIZ_URL + FIND_PATH, option)
             .then(response => response.json())
-            .then(questions => renderQuizQuestions(questions))
+            .then(console.log)
+            // .then(questions => renderQuizQuestions(questions))
     }
 
     findQuiz(params)

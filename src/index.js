@@ -2,6 +2,7 @@ QUIZ_URL = "http://localhost:3000/quizzes/"
 NEW_PATH = "new"
 FIND_PATH = "find"
 
+
 // authorizationVerification(QUIZ_URL + NEW_PATH)
 //     .then(response => response.json())
 //     .then(authorizationResponse => directUser(authorizationResponse))
