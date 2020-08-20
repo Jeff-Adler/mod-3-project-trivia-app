@@ -57,3 +57,11 @@ body#sign-up {
 #timer {
     text-align: center;
 }
+
+#score-message {
+    text-align: center;
+}
+
+#leaderboard{
+    text-align: center;
+}

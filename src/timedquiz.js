@@ -9,28 +9,13 @@ let score = 0
 let questionCounter = 0
 let questionsArray = []
 
-// Task Block A:
-// 1. Create a new html page for timed quiz ✓
-// 2. Do a fetch request for 50 questions, and make a new array for correct answers with50 placeholders ✓
-// 3. Figure out how to render 1 question at a time
-// 4. Figure out how to track score (try to resuse old methods)
-// 5. in Common.js, make sure it knows whether to do the method for quiz or timed quiz
-
-// Set radio button attribute "name" dynamically in the JS
-
-
 const params = getParams(window.location.href);
 
 retrieveQuiz(params)
 
 const answersForm = document.querySelector("#answers-form")
 
-//1. Loop through array of Questions
-//2. Takes a question JSON element: keeps track of correctAnswer, shuffles array of answers
-//3. renders questions+answers on the HTML
-
 const renderAnswersForm = (answersJson) => {
-    //sets the id of current question
     answersForm.dataset.question_id = questionCounter
     let answersArr = answersJson["incorrect_answers"]
     const correctAnswer = answersJson["correct_answer"]            
@@ -68,7 +53,7 @@ const renderTimedQuizQuestions = (questionsHash) => {
 }
 
 const startTimer = () => {
-    var totalSeconds = 10;
+    var totalSeconds = 2;
 
     var timer = setInterval(setTime, 1000);
 
@@ -94,9 +79,17 @@ const stopQuiz = () => {
 }
 
 const reportResults = () => {
+    const h3 = document.querySelector("h3")
+    h3.id = "score-message"
+    h3.remove()
     const h1 = document.createElement("h1")
-    h1.innerText = score.toString()
+    h1.innerText = `Congrats! You got ${score} out of ${questionCounter} questions right.`
+    h1.style = "text-align:center"
     document.querySelector("body").append(h1)
+    const takeQuizLink = document.createElement("div")
+    takeQuizLink.innerHTML = `<a href="../index.html">Take another quiz</a>`
+    document.querySelector("body").append(takeQuizLink)
+    takeQuizLink.style = "text-align:center"
 }
 
 const storeScore = (quizID) => {

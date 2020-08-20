@@ -11,6 +11,7 @@ const retrieveQuiz = (params) => {
     const result = params["category"].replace(searchRegExp, replaceWith);
     const quizType = params["quiz-type"]
     let numQuestions;
+    const userNickname = params["nickname"]
     if(quizType === "timed"){
         numQuestions = 50 
     }else if(quizType === "regular"){
@@ -19,7 +20,8 @@ const retrieveQuiz = (params) => {
     const quizObj = {
         category: result,
         difficulty: params["difficulty"],
-        num_questions: numQuestions
+        num_questions: numQuestions,
+        nickname: userNickname
     }
     const option = {
     method: "POST",
