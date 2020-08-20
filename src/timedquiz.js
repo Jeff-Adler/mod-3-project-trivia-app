@@ -43,20 +43,14 @@ const renderAnswersForm = (answersJson) => {
 const renderTimedQuizQuestions = (questionsHash) => {
     const questionContainer = document.querySelector("#question-container")
     questionContainer.dataset.quiz_id = Object.keys(questionsHash)[0]     //stores quiz_id
-
     questionsArray = Object.values(questionsHash)[0]
-    console.log(questionsArray)
-
     renderAnswersForm(questionsArray[questionCounter])
-
     console.log(correctAnswers)
 }
 
 const startTimer = () => {
-    var totalSeconds = 2;
-
+    var totalSeconds = 5;
     var timer = setInterval(setTime, 1000);
-
     const timerElement = document.querySelector("#timer")
     function setTime() {
 
@@ -67,7 +61,6 @@ const startTimer = () => {
             reportResults()
             storeScore(document.querySelector("#question-container").dataset.quiz_id)
         }
-
         --totalSeconds;
         timerElement.innerText = totalSeconds
     }
@@ -76,6 +69,7 @@ const startTimer = () => {
 const stopQuiz = () => {
     document.querySelector("#question-container").style.display = "none"
     document.querySelector("#timer-container").style.display = "none"
+    document.querySelector("#quiz-time").style.display ="none"
 }
 
 const reportResults = () => {
@@ -85,10 +79,10 @@ const reportResults = () => {
     const h1 = document.createElement("h1")
     h1.innerText = `Congrats! You got ${score} out of ${questionCounter} questions right.`
     h1.style = "text-align:center"
-    document.querySelector("body").append(h1)
+    document.querySelector("body").prepend(h1)
     const takeQuizLink = document.createElement("div")
     takeQuizLink.innerHTML = `<a href="../index.html">Take another quiz</a>`
-    document.querySelector("body").append(takeQuizLink)
+    h1.append(takeQuizLink)
     takeQuizLink.style = "text-align:center"
 }
 
@@ -115,9 +109,9 @@ const changeHandler = () => {
             console.log(e.target)
             const questionIndex = e.target.parentElement.dataset.question_id
             userAnswers[questionIndex] = e.target.value
+            let isCorrect = true
             if(givenAnswer === decodeHTML(correctAnswers[parseInt(e.target.name)])){
                 score += 1
-                const questionDiv = e.target.parentNode
                 const divNodes = e.target.parentNode.children
                 for (const node of divNodes){
                     if(node.type == "radio"){
@@ -125,19 +119,31 @@ const changeHandler = () => {
                     }
                 }
             }else if (givenAnswer !== correctAnswers[parseInt(e.target.name)]){
-                const questionDiv = e.target.parentNode
                 const divNodes = e.target.parentNode.children
+                isCorrect = false
                 for (const node of divNodes){
                     if(node.type == "radio"){
                         node.disabled = true
                     }
                 }
             }
-            console.log(score)
+            updateProgressBar(isCorrect)
             questionCounter++
             renderAnswersForm(questionsArray[questionCounter])
         }
     })
+}
+
+const updateProgressBar = (isCorrect) => {
+    const progressBar = document.querySelector("#progress-bar")
+    const progressDot = document.createElement("td")
+    if(isCorrect){
+        progressDot.innerHTML = `<span class="green-dot"></span>`
+    }else if(isCorrect === false){
+        progressDot.innerHTML = `<span class="red-dot"></span>`
+    }
+    progressBar.append(progressDot)
+
 }
 
 const clickHandler = () => {
