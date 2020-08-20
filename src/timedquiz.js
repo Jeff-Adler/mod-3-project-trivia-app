@@ -20,7 +20,7 @@ let questionsArray = []
 
 
 const params = getParams(window.location.href);
-console.log(params)
+
 retrieveQuiz(params)
 
 const answersForm = document.querySelector("#answers-form")
@@ -68,15 +68,51 @@ const renderTimedQuizQuestions = (questionsHash) => {
 }
 
 const startTimer = () => {
-    var totalSeconds = 60;
+    var totalSeconds = 10;
 
-    setInterval(setTime, 1000);
+    var timer = setInterval(setTime, 1000);
 
     const timerElement = document.querySelector("#timer")
     function setTime() {
+
+        if(totalSeconds === 0 || !(questionCounter < 50)){
+            console.log("hit timeout or question max")
+            clearInterval(timer)
+            stopQuiz()
+            reportResults()
+            storeScore(document.querySelector("#question-container").dataset.quiz_id)
+        }
+
         --totalSeconds;
         timerElement.innerText = totalSeconds
     }
+}
+
+const stopQuiz = () => {
+    document.querySelector("#question-container").style.display = "none"
+    document.querySelector("#timer-container").style.display = "none"
+}
+
+const reportResults = () => {
+    const h1 = document.createElement("h1")
+    h1.innerText = score.toString()
+    document.querySelector("body").append(h1)
+}
+
+const storeScore = (quizID) => {
+    option = {
+        method: "PATCH",
+        headers: {
+        "content-type": "application/json",
+        "accept": "application/json"
+        },
+        body: JSON.stringify({
+            score: score   
+        })
+    }
+    fetch(QUIZ_URL + quizID + SCORE_PATH, option)
+    .then(response => response.json())
+    .then(console.log())
 }
 
 const changeHandler = () => {
@@ -104,8 +140,8 @@ const changeHandler = () => {
                     }
                 }
             }
+            console.log(score)
             questionCounter++
-            console.log(questionCounter)
             renderAnswersForm(questionsArray[questionCounter])
         }
     })
