@@ -33,9 +33,9 @@ const retrieveQuiz = (params) => {
         .then(response => response.json())
         .then(questionsHash => {
             if(quizType === "timed"){
-                renderTimedQuizQuestions(questionsHash)
+                renderTimedQuizQuestions(questionsHash) //timedquiz.js function
             } else if(quizType === "regular"){
-                renderQuizQuestions(questionsHash)
+                renderQuizQuestions(questionsHash) //quiz.js function
             }
         })
 }
@@ -53,3 +53,20 @@ var getParams = function (url) {
     return params;
 };
 
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
+const decodeHTML = (string) => {
+    string = string.replace("&#039;","\'");
+    string = string.replace("&amp;","&");
+    string = string.replace("&lt;","<");
+    string = string.replace("&gt;",">");
+    string = string.replace("&quot;","\"");
+    return string
+}

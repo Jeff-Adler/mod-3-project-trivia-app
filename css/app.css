@@ -51,3 +51,9 @@ body#sign-up {
     padding: 200px 0;
     text-align: center;
 }
+
+/* Timed Quiz Form */
+
+#timer {
+    text-align: center;
+}

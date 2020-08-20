@@ -11,7 +11,11 @@ console.log(params)
 retrieveQuiz(params)
 
     const renderQuizQuestions = (questionsHash) => {
+        // this line of code extracts {quiz_id}
         questionsContainer.dataset.current_quiz_id = Object.keys(questionsHash)[0]
+
+        //questionsHash has the form {quiz_id => [questions,..]}
+        // this line of code extracts [questions...]
         const questionsArray = Object.values(questionsHash)[0]
         for(let i = 0; i < questionsArray.length; i++){ 
             const questionDiv = document.createElement("div")
@@ -21,16 +25,16 @@ retrieveQuiz(params)
             const correctAnswer = questionsArray[i]["correct_answer"]
             correctAnswers.push(correctAnswer)
             answersArr.push(correctAnswer)
-            function shuffleArray(array) {
-                for (var i = array.length - 1; i > 0; i--) {
-                    var j = Math.floor(Math.random() * (i + 1));
-                    var temp = array[i];
-                    array[i] = array[j];
-                    array[j] = temp;
-                }
-            }
+            // function shuffleArray(array) {
+            //     for (var i = array.length - 1; i > 0; i--) {
+            //         var j = Math.floor(Math.random() * (i + 1));
+            //         var temp = array[i];
+            //         array[i] = array[j];
+            //         array[j] = temp;
+            //     }
+            // }
             
-            shuffleArray(answersArr)
+            shuffleArray(answersArr) 
             
             const question = document.createElement("h3")
             question.innerHTML = `${questionsArray[i]["question"]}`
@@ -110,14 +114,14 @@ document.addEventListener("DOMContentLoaded", () => {
     //     console.log(correctAnswers)
     // }
 
-    const decodeHTML = (string) => {
-        string = string.replace("&#039;","\'");
-        string = string.replace("&amp;","&");
-        string = string.replace("&lt;","<");
-        string = string.replace("&gt;",">");
-        string = string.replace("&quot;","\"");
-        return string
-    }
+    // const decodeHTML = (string) => {
+    //     string = string.replace("&#039;","\'");
+    //     string = string.replace("&amp;","&");
+    //     string = string.replace("&lt;","<");
+    //     string = string.replace("&gt;",">");
+    //     string = string.replace("&quot;","\"");
+    //     return string
+    // }
 
     const changeHandler = () => {
         document.addEventListener("change", (e) => {
