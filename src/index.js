@@ -1,5 +1,5 @@
 QUIZ_URL = "http://localhost:3000/quizzes/"
-NEW_PATH = "new"
+CATEGORIES_PATH = "categories"
 FIND_PATH = "find"
 
 
@@ -13,7 +13,7 @@ FIND_PATH = "find"
 
         // Responsible for getting the list of categories from API and rendering them in the HTML
         const getCategoryList = () => {
-            fetch(QUIZ_URL + NEW_PATH)
+            fetch(QUIZ_URL + CATEGORIES_PATH)
                 .then(response => response.json())
                 .then(categories => {
                     renderCategories(categories["trivia_categories"])

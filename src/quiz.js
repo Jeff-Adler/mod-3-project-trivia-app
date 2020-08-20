@@ -39,8 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    const renderQuizQuestions = (questionsArray) => {
-        // console.log(questionsArray)
+    const renderQuizQuestions = (questionsHash) => {
+        questionsContainer.dataset.current_quiz_id = Object.keys(questionsHash)[0]
+        const questionsArray = Object.values(questionsHash)[0]
         for(let i = 0; i < questionsArray.length; i++){ 
             const questionDiv = document.createElement("div")
             questionDiv.dataset.question_id = i
@@ -49,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const correctAnswer = questionsArray[i]["correct_answer"]
             correctAnswers.push(correctAnswer)
             answersArr.push(correctAnswer)
-            
             function shuffleArray(array) {
                 for (var i = array.length - 1; i > 0; i--) {
                     var j = Math.floor(Math.random() * (i + 1));
@@ -185,10 +185,10 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         body: JSON.stringify(quizObj) 
         }
-        fetch(QUIZ_URL + FIND_PATH, option)
+        fetch(QUIZ_URL + NEW_PATH, option)
             .then(response => response.json())
-            .then(console.log)
-            // .then(questions => renderQuizQuestions(questions))
+            .then(questionsHash => renderQuizQuestions(questionsHash))
+            // .then(console.log)
     }
 
     findQuiz(params)
