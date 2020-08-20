@@ -1,13 +1,25 @@
-const retrieveQuiz = (params, numQuestions) => {
+QUIZ_URL = "http://localhost:3000/quizzes/"
+NEW_PATH = "new"
+FIND_PATH = "find"
+SCORE_PATH = "/score"
+
+
+const retrieveQuiz = (params) => {
     const search = '\\+';
     const searchRegExp = new RegExp(search, 'g'); 
     const replaceWith = ' ';
     const result = params["category"].replace(searchRegExp, replaceWith);
-
+    const quizType = params["quiz-type"]
+    let numQuestions;
+    if(quizType === "timed"){
+        numQuestions = 50 
+    }else if(quizType === "regular"){
+        numQuestions = 10
+    }
     const quizObj = {
         category: result,
         difficulty: params["difficulty"],
-        numberQuestions: numQuestions
+        num_questions: numQuestions
     }
     const option = {
     method: "POST",
@@ -19,7 +31,13 @@ const retrieveQuiz = (params, numQuestions) => {
     }
     fetch(QUIZ_URL + NEW_PATH, option)
         .then(response => response.json())
-        .then(questionsHash => renderQuizQuestions(questionsHash))
+        .then(questionsHash => {
+            if(quizType === "timed"){
+                renderTimedQuizQuestions(questionsHash)
+            } else if(quizType === "regular"){
+                renderQuizQuestions(questionsHash)
+            }
+        })
 }
 
 var getParams = function (url) {

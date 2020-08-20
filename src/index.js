@@ -26,23 +26,45 @@ FIND_PATH = "find"
                 select.append(option)
             }
             const quizForm = document.querySelector("#quiz-selections")
+
             const lineBreak1 = document.createElement("br");
             const lineBreak2= document.createElement("br");
             quizForm.prepend(label, select,lineBreak1,lineBreak2)
-            submitButton = document.createElement("input")
-            submitButton.type = "submit"
-            submitButton.value = "Let's get quizzing!"
-            quizForm.append(submitButton)
-            quizForm.addEventListener("submit", processForm)
+            // submitButton = document.createElement("input")
+            // submitButton.type = "submit"
+            // submitButton.value = "Get quizzing!"
+
+            // regularQuizButton = document.createElement("input")
+            // regularQuizButton.id = "reg-quiz-but"
+            // regularQuizButton.type = "submit"
+            // regularQuizButton.value = "Regular quiz"
+
+            // timedQuizButton = document.createElement("input")
+            // timedQuizButton.id = "timed-quiz-but"
+            // timedQuizButton.type = "submit"
+            // timedQuizButton.value = "Take a timed quiz"
+
+
+            // quizForm.append(regularQuizButton, timedQuizButton)
+            // quizForm.append(submitButton)
 
         }
 
-        const processForm = (e) => { 
-            const formElements = e.target.children
-            const difficultyInput = formElements[1].value
-            const quizTopicInput = formElements[3].value
-            findQuiz(difficultyInput, quizTopicInput)
+
+        const submitHandler = () => {
+            document.addEventListener("submit", (e) => {
+                const quizForm = document.querySelector("#quiz-selections")
+                if(e.target.matches("#quiz-selections")){
+                    const quizType = e.target.querySelector("#quiz-type-select").value
+                    if(quizType === 'regular'){
+                        quizForm.action = "views/quiz.html"
+                    }else if(quizType === 'timed'){
+                        quizForm.action = "views/timedquiz.html"
+                    }
+                }
+            })
         }
 
         getCategoryList()
+        submitHandler()
     })
