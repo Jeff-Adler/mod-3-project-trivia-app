@@ -21,7 +21,6 @@ var getParams = function (url) {
 
 const params = getParams(window.location.href);
 
-
 document.addEventListener("DOMContentLoaded", () => {
     let score = 0
     const questionsContainer = document.querySelector("#questions-container")
@@ -64,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
             
             const question = document.createElement("h3")
             question.innerHTML = `${questionsArray[i]["question"]}`
-            // in the CC add an indentation for the questiondiv
             questionDiv.innerHTML =
             `
             <input type="radio" class="radio-node" id="answer-one" name="${i}" value="${answersArr[0]}">
@@ -100,7 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 userAnswers[questionIndex] = e.target.value
                 if(e.target.value === decodeHTML(correctAnswers[parseInt(e.target.name)])){
                     score += 1
-                    // console.log("right!")
                     const questionDiv = e.target.parentNode
                     const divNodes = e.target.parentNode.children
                     for (const node of divNodes){
@@ -108,7 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             node.disabled = true
                         }
                     }
-                    // console.log(score)
                 }else if (e.target.value !== correctAnswers[parseInt(e.target.name)]){
                     const questionDiv = e.target.parentNode
                     const divNodes = e.target.parentNode.children
@@ -117,7 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             node.disabled = true
                         }
                     }
-                    // console.log("wrong!")
                 }
             }   
         })
@@ -133,8 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 questionsContainer.prepend(scoreMessage)
                 scroll(0,0)
                 const body = e.target.parentNode
-                // console.log(userAnswers)
-                // console.log(correctAnswers)
                 for(let i=0; i < correctAnswers.length; i++){
                     if(correctAnswers[i] === userAnswers[i]){
                         const divToColorChange = document.querySelector(`[data-question_id="${i}"]`)
@@ -145,14 +138,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         divToColorChange.style.color = "red";
                     }
                 }
-                const quizResultID = document.querySelector("#questions-container").dataset.current_quiz_id
-                updateQuizResult(score, nickname, quizResultID)
+                const quizID = document.querySelector("#questions-container").dataset.current_quiz_id
+                updateQuizResult(score, nickname, quizID)
             }
             
         })
     }
 
-    const updateQuizResult = (quizScore, userNickname, quizResultID) => { // also pass in quizResultId
+    const updateQuizResult = (quizScore, userNickname, quizID) => {
         
         option = {
             method: "PATCH",
@@ -165,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 nickname: userNickname     
             })
         }
-        fetch(QUIZ_URL + quizResultID + SCORE_PATH, option)
+        fetch(QUIZ_URL + quizID + SCORE_PATH, option)
         .then(response => response.json())
         .then(console.log())
     }
@@ -192,7 +185,6 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(QUIZ_URL + NEW_PATH, option)
             .then(response => response.json())
             .then(questionsHash => renderQuizQuestions(questionsHash))
-            // .then(console.log)
     }
 
     findQuiz(params)

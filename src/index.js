@@ -3,15 +3,8 @@ CATEGORIES_PATH = "categories"
 FIND_PATH = "find"
 
 
-// authorizationVerification(QUIZ_URL + NEW_PATH)
-//     .then(response => response.json())
-//     .then(authorizationResponse => directUser(authorizationResponse))
-
-
-
     document.addEventListener("DOMContentLoaded", () => {
 
-        // Responsible for getting the list of categories from API and rendering them in the HTML
         const getCategoryList = () => {
             fetch(QUIZ_URL + CATEGORIES_PATH)
                 .then(response => response.json())
