@@ -1,6 +1,7 @@
 QUIZ_URL = "http://localhost:3000/quizzes/"
 NEW_PATH = "new"
 FIND_PATH = "find"
+SCORE_PATH = "/score"
 let correctAnswers = []
 let userAnswers = new Array(10);
 
@@ -144,27 +145,30 @@ document.addEventListener("DOMContentLoaded", () => {
                         divToColorChange.style.color = "red";
                     }
                 }
-                
-                // updateQuizResultInstance(score, nickname)
+                const quizResultID = document.querySelector("#questions-container").dataset.current_quiz_id
+                updateQuizResult(score, nickname, quizResultID)
             }
             
         })
     }
 
-    // const updateQuizResultInstance = (quizScore, userNickname) => { // also pass in quizResultId
+    const updateQuizResult = (quizScore, userNickname, quizResultID) => { // also pass in quizResultId
         
-    //     option = {
-    //         method: "PATCH",
-    //         body: JSON.stringify({
-    //                             id: waat
-                                // score: quizScore,
-    //                             nickname: userNickname     
-    //                             }),
-    //         headers: {"content-type": "application/json"}
-    //     }
-    //     fetch(QUIZ_RESULT_URL + quizResultID, option)
-    //     .then(console.log)
-    // }
+        option = {
+            method: "PATCH",
+            headers: {
+            "content-type": "application/json",
+            "accept": "application/json"
+            },
+            body: JSON.stringify({
+                score: quizScore,
+                nickname: userNickname     
+            })
+        }
+        fetch(QUIZ_URL + quizResultID + SCORE_PATH, option)
+        .then(response => response.json())
+        .then(console.log())
+    }
 
 
     const findQuiz = (params) => {
