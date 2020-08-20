@@ -37,7 +37,7 @@ FIND_PATH = "find"
 
         }
 
-        const processForm = (e) => {
+        const processForm = (e) => { 
             const formElements = e.target.children
             const difficultyInput = formElements[1].value
             const quizTopicInput = formElements[3].value

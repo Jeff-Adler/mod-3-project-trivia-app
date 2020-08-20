@@ -1,0 +1,46 @@
+<!-- Task Block A:
+1. Create a new html page for timed quiz
+2. Do a fetch request for 50 questions, and make a new array for correct answers with50 placeholders
+3. Figure out how to render 1 question at a time
+4. Figure out how to track score (try to resuse old methods) 
+5. Create css page or update existing to make quiz page prettier -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="../css/app.css">
+        <title>Quiz Generator</title>
+    </head>
+
+    <body>
+        <h1 class="centered-heading">Quiz Time!</h1>
+        <h3>See how many questions you can answer in 60 seconds!</h3>
+        <div id="question-container">
+            <form id="answers-form">
+                <p id="question-text">Question placeholder</p>
+                <input type="radio" id="q1" name="choice">
+                <label for="q1">Test</label><br>
+
+                <input type="radio" id="q2" name="choice">
+                <label for="q2">Test</label><br>
+
+                <input type="radio" id="q3" name="choice">
+                <label for="q3">Test</label><br>
+                
+                <input type="radio" id="q4" name="choice">
+                <label for="q4">Test</label>
+              </form>
+        </div>
+        
+        <button type="button" id="submit-quiz-button">Get your quiz results!</button>
+
+        
+    </body>
+    <script defer type="text/javascript" src="../src/timedquiz.js" charset="utf-8"></script>
+</html>
+
+
+
+
