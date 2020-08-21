@@ -21,15 +21,29 @@
             <select id="quiz-type-select" name="quiz-type"><br>
                 <option value="regular">Regular</option>
                 <option value="timed">Timed</option>
-            </select><br><br><br> 
+            </select><br><br>
                 <label for="nickname">What's your nickname? We'll use it for the leaderboard.</label>
                 <input type="text" id="nickname" name="nickname"><br><br>
             <input id="start-quiz" type="submit" value="Get quizzing!">
             </form>
         </div><br><br>
         <div id="leaderboard">
-            <h2>Leaderboard</h2>
-        </div>
+            <h2 id="leaderboard">Leaderboard: Timed Quiz</h2>
+            <div id="slider">
+                <label class="switch">
+                    <input id="slider" type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+            </div><br>
+                <table id="leaderboard-table">
+                    <tr>
+                      <th>Nickname</th>
+                      <th>Difficulty</th>
+                      <th>Category</th>
+                      <th>Score</th>
+                    </tr>
+                  </table>
+        </div><br>
     </div>
 </body>
 <script defer type="text/javascript" src="src/common.js" charset="utf-8"></script>

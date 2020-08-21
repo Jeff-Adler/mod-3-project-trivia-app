@@ -2,6 +2,12 @@ QUIZ_URL = "http://localhost:3000/quizzes/"
 CATEGORIES_PATH = "categories"
 FIND_PATH = "find"
 
+TOGGLE_STATE = {
+    "off" : "on",
+    "on" : "off"
+}
+
+let current_toggle_state = "off"
 
     document.addEventListener("DOMContentLoaded", () => {
 
@@ -55,41 +61,71 @@ FIND_PATH = "find"
         }
 
         const createPlayerStats = (leaderboardData) => {
+            document.querySelectorAll(".table-element").forEach(e => e.remove())
             for(const leaderData of leaderboardData){
-                const {nickname, score, difficulty, category} = leaderData
+                const {nickname, score, difficulty, category, num_questions} = leaderData
                 const leaderStats = {
                     nickname: nickname,
                     score: score,
                     difficulty: difficulty,
-                    category: category
+                    category: category,
+                    num_questions: num_questions
                 }
-                renderPlayerStats(leaderStats)
+                renderPlayerStats(leaderStats, current_toggle_state)
             }
 
         }
 
-        const renderPlayerStats = (stats) => {
-            const leaderboardDiv = document.querySelector("#leaderboard")
-            const playerLi = document.createElement("li")
-            const nickname = stats["nickname"].replace("+", " ")
-            playerLi.innerHTML = `Nickname: ${nickname} | Difficulty: ${stats["difficulty"]} | Category: ${stats["category"]} | Score: ${stats["score"]} `
-            leaderboardDiv.append(playerLi)
-            console.log(stats)
+        const renderPlayerStats = (stats, current_toggle_state) => {
+            let questionCount
+            current_toggle_state === "off" ? questionCount = 50 : questionCount = 10
+            if(stats["score"] && stats["num_questions"] === questionCount) {
+
+                console.log(stats)
+                const leaderboardDiv = document.querySelector("#leaderboard-table")
+
+                const tr = document.createElement("tr")
+                tr.className = "table-element"
+
+                const td1 = document.createElement("td")
+                const td2 = document.createElement("td")
+                const td3 = document.createElement("td")
+                const td4 = document.createElement("td")
+
+                td1.innerText = `${stats.nickname}`
+                td2.innerText = `${stats.difficulty}`
+                td3.innerText = `${stats.category}`
+                td4.innerText = `${stats.score}`
+
+                td1.className = "table-element"
+                td2.className = "table-element"
+                td3.className = "table-element"
+                td4.className = "table-element"
+
+                tr.append(td1)
+                tr.append(td2)
+                tr.append(td3)
+                tr.append(td4)
+                leaderboardDiv.append(tr)
+            }
+        }
+
+        const changeHandler = () => { 
+            document.addEventListener("change", (e) => {
+                if (e.target.matches("#slider")) {
+                    current_toggle_state = TOGGLE_STATE[current_toggle_state]
+                    const leaderboardHeader = document.querySelector("h2#leaderboard")
+                    current_toggle_state === "on" ? leaderboardHeader.innerText = "Leaderboard: Regular Quiz" : leaderboardHeader.innerText = "Leaderboard: Timed Quiz"
+                    getLeaderboardData()
+                }
+            })
 
         }
 
-        //stretch goal: rank players
-        // function compare(a,b) {
-        //     if (a.score < b.score)
-        //       return -1;
-        //     if (a.score > b.score)
-        //       return 1;
-        //     return 0;
-        //   }
-          
-        //   playerArray.sort(compare);
+
 
         getCategoryList()
         submitHandler()
         getLeaderboardData()
+        changeHandler()
     })
