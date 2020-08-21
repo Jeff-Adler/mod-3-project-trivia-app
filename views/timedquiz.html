@@ -8,10 +8,11 @@
     </head>
 
     <body id="timed-quiz-body">
-        <h1 id="quiz-time" class="centered-heading">Quiz Time!</h1>
-        <h3>See how many questions you can answer in 60 seconds!</h3>
-        <button type="button" id="start-timer">Start!</button><br>
-
+        <div id="page-heading">
+            <h1 id="quiz-time" class="centered-heading">Quiz Time!</h1>
+            <h3>See how many questions you can answer in 60 seconds!</h3>
+            <button type="button" id="start-timer">Start!</button><br>
+        </div>
         <div id="question-container">
             <form hidden id="answers-form">
                 <p id="question-text">Question placeholder</p>
@@ -27,13 +28,17 @@
                 <input type="radio" class="radio-node" id="q4" name="choice">
                 <label for="q4">Test</label>
             </form>
-        </div><br><br>
+        </div><br>
         <div id="timer-container">
             <h1 id="timer"></h1>
         </div>
-        <table>
-            <tr id="progress-bar"></tr>
-        </table>
+        <div id="progress-bar-div">
+            <table id = "progress-bar-table">
+                <tr id="progress-bar-row-1"></tr>
+                <tr id="progress-bar-row-2"></tr>
+                <tr id="progress-bar-row-3"></tr>
+            </table>
+        </div>
         
 
         

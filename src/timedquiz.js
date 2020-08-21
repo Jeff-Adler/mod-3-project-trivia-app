@@ -49,7 +49,7 @@ const renderTimedQuizQuestions = (questionsHash) => {
 }
 
 const startTimer = () => {
-    var totalSeconds = 5;
+    var totalSeconds = 60;
     var timer = setInterval(setTime, 1000);
     const timerElement = document.querySelector("#timer")
     function setTime() {
@@ -70,6 +70,7 @@ const stopQuiz = () => {
     document.querySelector("#question-container").style.display = "none"
     document.querySelector("#timer-container").style.display = "none"
     document.querySelector("#quiz-time").style.display ="none"
+    document.querySelector("#progress-bar-div").style.display ="none"
 }
 
 const reportResults = () => {
@@ -77,11 +78,13 @@ const reportResults = () => {
     h3.id = "score-message"
     h3.remove()
     const h1 = document.createElement("h1")
+    h1.id = "quiz-completion-header"
     h1.innerText = `Congrats! You got ${score} out of ${questionCounter} questions right.`
     h1.style = "text-align:center"
     document.querySelector("body").prepend(h1)
     const takeQuizLink = document.createElement("div")
-    takeQuizLink.innerHTML = `<a href="../index.html">Take another quiz</a>`
+    takeQuizLink.id = "take-quiz-link"
+    takeQuizLink.innerHTML = `<br><br><br><a href="../index.html">Take another quiz</a>`
     h1.append(takeQuizLink)
     takeQuizLink.style = "text-align:center"
 }
@@ -135,14 +138,20 @@ const changeHandler = () => {
 }
 
 const updateProgressBar = (isCorrect) => {
-    const progressBar = document.querySelector("#progress-bar")
+    const progressDots = document.querySelectorAll("td")
     const progressDot = document.createElement("td")
     if(isCorrect){
         progressDot.innerHTML = `<span class="green-dot"></span>`
     }else if(isCorrect === false){
         progressDot.innerHTML = `<span class="red-dot"></span>`
     }
-    progressBar.append(progressDot)
+    if (progressDots.length <= 22) {
+        document.querySelector("#progress-bar-row-1").append(progressDot)
+    } else if (progressDots.length > 22 && progressDots.length <= 44) {
+        document.querySelector("#progress-bar-row-2").append(progressDot)
+    } else {
+        document.querySelector("#progress-bar-row-3").append(progressDot)
+    }
 
 }
 
@@ -152,7 +161,8 @@ const clickHandler = () => {
             console.log(e.target)
             const startTimerButton = e.target
             startTimerButton.style.display = "none"
-            document.querySelector("#answers-form").style.display = "block"
+            document.querySelector("div#page-heading").style.display = "none"
+            document.querySelector("div#question-container").style.display = "block"
             startTimer()
         }
     })

@@ -54,8 +54,43 @@ body#sign-up {
 
 /* Timed Quiz Form */
 
+#page-heading {
+    text-align: center;
+}
+
 #timer {
     text-align: center;
+}
+
+div#question-container {
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100px;
+        line-height: 100x;
+        padding: 150px;    
+    display: none;    
+}
+
+#quiz-completion-header {
+    padding:30px;
+}
+
+#take-quiz-link {
+    padding: 150px;    
+    font-weight: lighter;
+}
+p#question-text {
+    width: auto;
+    text-align: center;
+}
+
+#question-container >* {
+    display: block;
+    /* margin-left: auto;
+    margin-right: auto; */
+    /* text-align: center; */
+    list-style-position: inside;
 }
 
 #score-message {
@@ -161,7 +196,14 @@ html {
     text-align: right;
   }
 
+/* Progress bar */
 
+#progress-bar-div, #progress-bar-table {
+    width: auto;
+    table-layout: auto;
+    height: 200px;
+    position: absolute;
+}
   
 
 /* Toggle Switch */
